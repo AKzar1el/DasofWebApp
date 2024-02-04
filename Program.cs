@@ -1,3 +1,5 @@
+using DasofWebApp.Services.VehiclePriceService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Custom services
+builder.Services.AddScoped<IVehiclePriceService, VehiclePriceService>();
 
 var app = builder.Build();
 
