@@ -1,4 +1,7 @@
-﻿namespace DasofWebApp.Models
+﻿using DasofWebApp.Common.Attributes;
+using System.ComponentModel.DataAnnotations;
+
+namespace DasofWebApp.Models
 {
     // Class for calculating vehicle price
     public class VehiclePrice
@@ -6,59 +9,74 @@
         // Proprety for field VAT rate
         private decimal _vat;
 
+        [Required]
+        [PositiveNumber]
         public decimal Vat
-        {// Returns Vat e.g. 22 % => 0.22
+        {// Returns vat rate e.g. 22 % => 0.22
             get { return (_vat / 100); }
             set => _vat = value;
         }
 
         // Proprety for field Base vehicle price
-        public decimal BasePriceNet { get; set; }
+        [PositiveNumber]
+        public decimal BasePriceNet { get; set; } = 0;
 
         private decimal _basePriceGross;
 
+        [PositiveNumber]
         public decimal BasePriceGross
         {
             get
-            {// Checks if BasePriceNet already set
+            {// Checks if BasePriceNet given
                 if (BasePriceNet <= 0)
                 {// Sets BasePriceNet based on the provided Vat and Gross
-                    BasePriceNet = _basePriceGross / (1 + this.Vat);
-                    // Returns the value
+                    BasePriceNet = CalculatePriceGrossToNet(_basePriceGross, this.Vat);
+                    // Returns the value for BasePriceGross
                     return _basePriceGross;
                 }
                 else // If BasePriceNet is already set, returns BasePriceNet with Vat calculated
-                    return (BasePriceNet * this.Vat) + BasePriceNet;
+                    return CalculatePriceNetToGross(BasePriceNet, this.Vat);
             }
             set => _basePriceGross = value;
         }
 
         // Proprety for field Additional equipment
-        public decimal AdditionalEqPriceNet { get; set; }
+        [PositiveNumber]
+        public decimal AdditionalEquipmentPriceNet { get; set; }
 
-        private decimal _additionalEqPriceGross;
+        private decimal _additionalEquipmentPriceGross;
 
-        public decimal AdditionalEqPriceGross
+        [PositiveNumber]
+        public decimal AdditionalEquipmentPriceGross
         {
             get
-            {// Checks if AdditionalEqPriceNet already set
-                if (AdditionalEqPriceNet <= 0)
-                {// Sets AdditionalEqPriceNet based on the provided Vat and Gross
-                    AdditionalEqPriceNet = _additionalEqPriceGross / (1 + this.Vat);
-                    // Returns the value
-                    return _additionalEqPriceGross;
+            {// Checks if AdditionalEquipmentPriceNet already set
+                if (AdditionalEquipmentPriceNet <= 0)
+                {// Sets AdditionalEquipmentPriceNet based on the provided Vat and Gross
+                    AdditionalEquipmentPriceNet = CalculatePriceGrossToNet(_additionalEquipmentPriceGross, this.Vat);
+                    // Returns the value for AdditionalEquipmentPriceGross 
+                    return _additionalEquipmentPriceGross;
                 }
-                else // If AdditionalEqPriceNet is already set, returns AdditionalEqPriceNet with Vat calculated
-                    return (AdditionalEqPriceNet * this.Vat) + AdditionalEqPriceNet;
+                else // If AdditionalEquipmentPriceNet is already set, returns AdditionalEquipmentPriceNet with vat added
+                    return CalculatePriceNetToGross(AdditionalEquipmentPriceNet, this.Vat);
             }
-            set => _additionalEqPriceGross = value;
+            set => _additionalEquipmentPriceGross = value;
         }
 
         // Proprety for field Total vehicle price
-        public decimal TotalPriceNet
-        { get { return AdditionalEqPriceNet + BasePriceNet; } } // Returns the sum of the net fields Base vehicle price and Additional equipment
+        public decimal TotalPriceNet => AdditionalEquipmentPriceNet + BasePriceNet;
 
-        public decimal TotalPriceGross
-        { get { return AdditionalEqPriceGross + BasePriceGross; } } // Returns the same sum but of the gross fields
+        public decimal TotalPriceGross => AdditionalEquipmentPriceGross + BasePriceGross;
+
+        // Helpers
+        public decimal CalculatePriceGrossToNet(decimal price, decimal vatRate)
+        {
+            return price / (1 + vatRate);
+        }
+
+        public decimal CalculatePriceNetToGross(decimal price, decimal vatRate)
+        {
+            return (price * vatRate) + price;
+        }
     }
 }

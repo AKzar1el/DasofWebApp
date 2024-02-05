@@ -6,6 +6,6 @@ namespace DasofWebApp.Services.VehiclePriceService
     public interface IVehiclePriceService
     {
         // Calculates the vehicle price
-        VehiclePrice GetVehiclePrice(VehiclePrice vehiclePrice);
+        VehiclePriceResponse GetVehiclePrice(VehiclePriceRequest request);
     }
 }
