@@ -2,7 +2,7 @@
 
 ## Overview
 The Vehicle Price Calculator is a component of the DasofWebApp, designed to calculate vehicle prices based on base prices, VAT, and additional equipment costs. It provides an API endpoint to submit pricing details and receive a calculated total price, both net and gross.
-
+The project currently includes two separate controllers, VehiclePriceController and VehiclePrice2Controller, each implementing its own methods to calculate the vehicle price. Despite their different structures, both methods ultimately deliver identical results. 
 ## Features
 - Calculate vehicle base price net and gross.
 - Calculate additional equipment price net and gross.
@@ -27,7 +27,6 @@ The Vehicle Price Calculator is a component of the DasofWebApp, designed to calc
 ## Usage
 
 ### Request Example
-
 Content-Type: application/json
 ```json
 {
@@ -39,6 +38,7 @@ Content-Type: application/json
 }
 ```
 ### Response Example
+Content-Type: application/json
 ```json
 {
   "basePriceNet": 10000,
