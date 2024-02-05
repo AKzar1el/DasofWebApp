@@ -60,7 +60,7 @@ The Vehicle Price Calculator is a component of the DasofWebApp, designed to calc
 
 ## Usage
 
-To calculate the vehicle price, make a POST request to `/api/vehicleprice/calculate` with a JSON payload containing the vehicle pricing details.
+To calculate the vehicle price, make a POST request to the implemented methods with a JSON payload containing the vehicle pricing details.
 
 ### Request Example
 
