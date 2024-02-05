@@ -32,6 +32,7 @@ To calculate the vehicle price, make a POST request to `/api/vehicleprice/calcul
 
 Content-Type: application/json
 
+```json
 {
   "vat": 20,
   "basePriceNet": 10000,
@@ -39,7 +40,7 @@ Content-Type: application/json
   "additionalEquipmentPriceNet": 2000,
   "additionalEquipmentPriceGross": 2400
 }
-
+```
 ### Response Example
 
 {
